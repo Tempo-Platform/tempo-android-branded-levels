@@ -1,0 +1,64 @@
+
+// Create variables with empty default values
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.key"] = ''
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
+ext["sonatypeStagingProfileId"] = ''
+
+
+// Search local.properties for secret data TODO: Retrieve this from cloud?
+File secretPropsFile = project.rootProject.file('local.properties')
+
+// We can store properties values in local.properties and extract them
+if (secretPropsFile.exists()) {
+    System.out.println("--> publish-root.gradle: secretPropsFile exists")
+    // Read local.properties file first if it exists
+    Properties p = new Properties()
+    new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
+    p.each { name, value -> ext[name] = value;
+        //System.out.println("ext[" + name + "] : " + value)
+    }
+}
+// OR We can get properties values from system environment variables TODO: Delete? System environment variables probably will not be used
+else {
+    System.out.println("--> publish-root.gradle: secretPropsFile DOES NOT exist (Use system environment variables)")
+    ext["ossrhUsername"] = System.getenv('OSSRH_USERNAME')
+    ext["ossrhPassword"] = System.getenv('OSSRH_PASSWORD')
+    ext["sonatypeStagingProfileId"] = System.getenv('SONATYPE_STAGING_PROFILE_ID')
+    ext["signing.keyId"] = System.getenv('SIGNING_KEY_ID')
+    ext["signing.password"] = System.getenv('SIGNING_PASSWORD')
+    ext["signing.key"] = System.getenv('SIGNING_KEY')
+}
+
+//System.out.println("\n\nossrhUsername\t\t\t\t: " + ext["ossrhUsername"] +
+//        "\nossrhPassword\t\t\t\t: " + ext["ossrhPassword"] +
+//        "\nsonatypeStagingProfileId\t: " + ext["sonatypeStagingProfileId"] +
+//        "\nsigning.key\t\t\t\t\t: " + ext["signing.key"] +
+//        "\nsigning.keyId\t\t\t\t: " + ext["signing.keyId"] +
+//        "\nsigning.password\t\t\t: " + ext["signing.password"])
+
+if(ext["ossrhUsername"] != null && ext["ossrhPassword"] != null)
+{
+    // Set up Sonatype repository
+    nexusPublishing {
+        repositories {
+            sonatype {
+                stagingProfileId = sonatypeStagingProfileId
+                username = ossrhUsername
+                password = ossrhPassword
+                nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+                snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            }
+        }
+    }
+} else {
+    // Cannot set up Sonatype repository without credentials
+    System.out.println("\nStopping build: null values found:" +
+            "\nossrhUsername\t\t\t\t: " + ext["ossrhUsername"] +
+            "\nossrhPassword\t\t\t\t: " + ext["ossrhPassword"]);
+}
+
+
+
