@@ -18,7 +18,7 @@ if (secretPropsFile.exists()) {
     Properties p = new Properties()
     new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
     p.each { name, value -> ext[name] = value;
-        System.out.println("ext[" + name + "] : " + value)
+//        System.out.println("ext[" + name + "] : " + value)
     }
 	
     System.out.println("--> ################")
@@ -47,12 +47,13 @@ if(ext["ossrhUsername"] != null && ext["ossrhPassword"] != null)
     nexusPublishing {
         repositories {
             sonatype {
-                System.out.println("--> ####### 1 #######")
+                System.out.println("--> ####### 8 #######")
                 stagingProfileId = sonatypeStagingProfileId
                 username = ossrhUsername
                 password = ossrhPassword
                 nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
                 snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+                System.out.println("--> ####### 10 #######")
             }
         }
     }
