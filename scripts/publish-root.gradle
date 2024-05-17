@@ -18,8 +18,10 @@ if (secretPropsFile.exists()) {
     Properties p = new Properties()
     new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
     p.each { name, value -> ext[name] = value;
-        //System.out.println("ext[" + name + "] : " + value)
+        System.out.println("ext[" + name + "] : " + value)
     }
+	
+    System.out.println("--> ################")
 }
 // OR We can get properties values from system environment variables TODO: Delete? System environment variables probably will not be used
 else {
@@ -45,6 +47,7 @@ if(ext["ossrhUsername"] != null && ext["ossrhPassword"] != null)
     nexusPublishing {
         repositories {
             sonatype {
+                System.out.println("--> ####### 1 #######")
                 stagingProfileId = sonatypeStagingProfileId
                 username = ossrhUsername
                 password = ossrhPassword
