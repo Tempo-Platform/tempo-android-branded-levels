@@ -1,4 +1,4 @@
-package com.tempoplatform.brandedlevels;
+package com.tempoplatform.bl_ui;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +14,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         SetupUIElements();
     }
-
     private void SetupUIElements() {
 
         mainButton = findViewById(R.id.mainButton);

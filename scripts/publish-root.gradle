@@ -8,7 +8,6 @@ ext["ossrhPassword"] = ''
 ext["sonatypeStagingProfileId"] = ''
 
 
-// Search local.properties for secret data TODO: Retrieve this from cloud?
 File secretPropsFile = project.rootProject.file('local.properties')
 
 // We can store properties values in local.properties and extract them
@@ -20,10 +19,7 @@ if (secretPropsFile.exists()) {
     p.each { name, value -> ext[name] = value;
 //        System.out.println("ext[" + name + "] : " + value)
     }
-	
-    System.out.println("--> ################")
 }
-// OR We can get properties values from system environment variables TODO: Delete? System environment variables probably will not be used
 else {
     System.out.println("--> publish-root.gradle: secretPropsFile DOES NOT exist (Use system environment variables)")
     ext["ossrhUsername"] = System.getenv('OSSRH_USERNAME')
@@ -34,26 +30,18 @@ else {
     ext["signing.key"] = System.getenv('SIGNING_KEY')
 }
 
-//System.out.println("\n\nossrhUsername\t\t\t\t: " + ext["ossrhUsername"] +
-//        "\nossrhPassword\t\t\t\t: " + ext["ossrhPassword"] +
-//        "\nsonatypeStagingProfileId\t: " + ext["sonatypeStagingProfileId"] +
-//        "\nsigning.key\t\t\t\t\t: " + ext["signing.key"] +
-//        "\nsigning.keyId\t\t\t\t: " + ext["signing.keyId"] +
-//        "\nsigning.password\t\t\t: " + ext["signing.password"])
-
 if(ext["ossrhUsername"] != null && ext["ossrhPassword"] != null)
 {
     // Set up Sonatype repository
     nexusPublishing {
         repositories {
             sonatype {
-                System.out.println("--> ####### 8 #######")
                 stagingProfileId = sonatypeStagingProfileId
                 username = ossrhUsername
                 password = ossrhPassword
                 nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
                 snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-                System.out.println("--> ####### 10 #######")
+                System.out.println("--> nexusPublishing > repositories > sonatype > nexusUrl.set/snapshotRepositoryUrl.set")
             }
         }
     }

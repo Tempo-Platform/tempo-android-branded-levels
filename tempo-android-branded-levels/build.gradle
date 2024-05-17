@@ -19,13 +19,11 @@ def getStripeTestKey() {
 
 android {
     namespace 'com.tempoplatform.tempo_branded_levels'
-    compileSdkVersion 33
+    compileSdk 33
 
     defaultConfig {
         minSdk 21
         targetSdk 33
-        buildConfigField "String", "STRIPE_TEST", "\"" + stripeTestKey + "\""
-        buildConfigField "String", "STRIPE_LIVE", "\"" + stripeLiveKey + "\""
     }
 
     buildTypes {
