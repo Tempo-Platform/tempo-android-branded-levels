@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Tempo Branded Levels"
 include ':app'
-include ':tempo-android-branded-levels'
+include ':tempo-android-bl'

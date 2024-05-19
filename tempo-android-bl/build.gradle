@@ -3,22 +3,8 @@ plugins {
     id 'maven-publish'
 }
 
-
-def getStripeLiveKey() {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    return properties.getProperty("stripeLiveKey");
-}
-
-
-def getStripeTestKey() {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    return properties.getProperty("stripeTestKey");
-}
-
 android {
-    namespace 'com.tempoplatform.tempo_branded_levels'
+    namespace 'com.tempoplatform.bl'
     compileSdk 33
 
     defaultConfig {
