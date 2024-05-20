@@ -7,21 +7,21 @@ ext["ossrhUsername"] = ''
 ext["ossrhPassword"] = ''
 ext["sonatypeStagingProfileId"] = ''
 
-
+// Set build variables
 File secretPropsFile = project.rootProject.file('local.properties')
-
-// We can store properties values in local.properties and extract them
+// Load properties from local.properties file if it exists
 if (secretPropsFile.exists()) {
-    System.out.println("--> publish-root.gradle: secretPropsFile exists")
-    // Read local.properties file first if it exists
-    Properties p = new Properties()
-    new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
-    p.each { name, value -> ext[name] = value;
-//        System.out.println("ext[" + name + "] : " + value)
+    println("TEMPO: publish-root.gradle (using props file)")
+    Properties properties = new Properties()
+    secretPropsFile.withInputStream { stream ->
+        properties.load(stream)
     }
-}
-else {
-    System.out.println("--> publish-root.gradle: secretPropsFile DOES NOT exist (Use system environment variables)")
+    properties.each { name, value ->
+        ext[name] = value
+        //println("--> ${name} | ${value} ")
+    }
+} else {
+    println("TEMPO: publish-root.gradle (using sys env file)")
     ext["ossrhUsername"] = System.getenv('OSSRH_USERNAME')
     ext["ossrhPassword"] = System.getenv('OSSRH_PASSWORD')
     ext["sonatypeStagingProfileId"] = System.getenv('SONATYPE_STAGING_PROFILE_ID')
@@ -30,8 +30,8 @@ else {
     ext["signing.key"] = System.getenv('SIGNING_KEY')
 }
 
-if(ext["ossrhUsername"] != null && ext["ossrhPassword"] != null)
-{
+// Set up Sonatype Nexus Repository for Maven
+if (ext["ossrhUsername"] && ext["ossrhPassword"]) {
     // Set up Sonatype repository
     nexusPublishing {
         repositories {
@@ -41,15 +41,15 @@ if(ext["ossrhUsername"] != null && ext["ossrhPassword"] != null)
                 password = ossrhPassword
                 nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
                 snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-                System.out.println("--> nexusPublishing > repositories > sonatype > nexusUrl.set/snapshotRepositoryUrl.set")
+                println("TEMPO: Sonatype Nexus repo set")
             }
         }
     }
 } else {
     // Cannot set up Sonatype repository without credentials
-    System.out.println("\nStopping build: null values found:" +
-            "\nossrhUsername\t\t\t\t: " + ext["ossrhUsername"] +
-            "\nossrhPassword\t\t\t\t: " + ext["ossrhPassword"]);
+    println("\nTEMPO: Build stopped - null or empty values found:" +
+            "\nossrhUsername\t\t\t\t: ${ext["ossrhUsername"]}" +
+            "\nossrhPassword\t\t\t\t: ${ext["ossrhPassword"]}")
 }
 
 

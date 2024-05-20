@@ -4,8 +4,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
-import com.tempoplatform.bl.Constants;
-import com.tempoplatform.bl.Utils;
 
 public class MainActivity extends AppCompatActivity {
     private Button mainButton;
@@ -17,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SetupUIElements();
     }
+
     private void SetupUIElements() {
 
         mainButton = findViewById(R.id.mainButton);
