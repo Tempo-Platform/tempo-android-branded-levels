@@ -2,23 +2,22 @@
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-
 ext {
     PUBLISH_GROUP_ID = 'io.github.tempo-platform'
-    PUBLISH_VERSION = '0.0.1'
-    PUBLISH_ARTIFACT_ID = 'tempo-android-branded-levels'
+    PUBLISH_VERSION = '0.1.0'
+    PUBLISH_ARTIFACT_ID = 'tempo-android-bl'
 }
 
 // Declare the sources to ensure the correct source files are packed with executable, compiled code.
-//task androidSourcesJar(type: Jar) {
-//    archiveClassifier.set('sources')
-//    from android.sourceSets.main.java.srcDirs
-//    from android.sourceSets.main.kotlin.srcDirs
-//}
-//
-//artifacts {
-//    archives androidSourcesJar
-//}
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+    from android.sourceSets.main.kotlin.srcDirs
+}
+
+artifacts {
+    archives androidSourcesJar
+}
 
 // Provide the metadata of the library to release
 afterEvaluate {
@@ -31,40 +30,43 @@ afterEvaluate {
                 artifactId PUBLISH_ARTIFACT_ID
                 version PUBLISH_VERSION
 
-                // Output package labels
-                System.out.println("PUBLISH_GROUP_ID\t\t: " + groupId +
-                        "\nPUBLISH_ARTIFACT_ID\t\t: " + artifactId +
-                        "\nPUBLISH_VERSION\t\t\t: " + version)
+                // Print the coordinates for verification.
+                println "PUBLISH_GROUP_ID: $groupId"
+                println "PUBLISH_ARTIFACT_ID: $artifactId"
+                println "PUBLISH_VERSION: $version"
 
                 if (project.plugins.findPlugin("com.android.library")) {
+                    println "SUCCESS: 'com.android.library' found."
 
+                    // Reference the release component from the Android library.
                     from components.release
                     artifact androidSourcesJar
 
                     // Mostly self-explanatory metadata
                     pom {
-                        name = artifactId
-                        description = "SDK for Tempo Branded Levels"
-                        url = 'https://github.com/Tempo-Platform/tempo-android-branded-levels'
+                        name.set(artifactId)
+                        description.set("SDK for Tempo Branded Levels")
+                        url.set('https://github.com/Tempo-Platform/tempo-android-branded-levels')
+
                         licenses {
                             license {
-                                name = 'MIT license'
-                                url = 'https://opensource.org/licenses/MIT'
+                                name.set('MIT license')
+                                url.set('https://opensource.org/licenses/MIT')
                             }
                         }
                         developers {
                             developer {
-                                id = 'omnibaker'
-                                name = 'omnibaker'
-                                email = 'omnibaker@gmail.com'
+                                id.set('omnibaker')
+                                name.set('omnibaker')
+                                email.set('omnibaker@gmail.com')
                             }
                         }
 
                         // Version control info
                         scm {
-                            connection = 'git@github.com:Tempo-Platform/tempo-android-branded-levels.git'
-                            developerConnection = 'git@github.com:Tempo-Platform/tempo-android-branded-levels.git'
-                            url = 'https://github.com/Tempo-Platform/tempo-android-branded-levels'
+                            connection.set('scm:git@github.com:Tempo-Platform/tempo-android-branded-levels.git')
+                            developerConnection.set('scm:git@github.com:Tempo-Platform/tempo-android-branded-levels.git')
+                            url.set('https://github.com/Tempo-Platform/tempo-android-branded-levels')
                         }
                     }
 
@@ -84,3 +86,4 @@ signing {
     )
     sign publishing.publications
 }
+
