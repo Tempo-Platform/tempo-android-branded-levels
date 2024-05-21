@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="AppTheme.AdActivity" parent="@android:style/Theme.Material.Light">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:usesCleartextTraffic" tools:targetApi="m">true</item>
+        <item name="android:exported">true</item>
+    </style>
+</resources>
