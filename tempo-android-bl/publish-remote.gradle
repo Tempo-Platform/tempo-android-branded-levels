@@ -4,7 +4,7 @@ apply plugin: 'signing'
 
 ext {
     PUBLISH_GROUP_ID = 'io.github.tempo-platform'
-    PUBLISH_VERSION = '0.1.5'
+    PUBLISH_VERSION = '1.0.0-rc.1'
     PUBLISH_ARTIFACT_ID = 'tempo-android-bl'
 }
 
@@ -29,10 +29,11 @@ afterEvaluate {
                 artifactId PUBLISH_ARTIFACT_ID
                 version PUBLISH_VERSION
 
-                // Print the coordinates for verification.
-                println "PUBLISH_GROUP_ID: $groupId"
-                println "PUBLISH_ARTIFACT_ID: $artifactId"
-                println "PUBLISH_VERSION: $version"
+
+                // Output package labels
+                System.out.println("PUBLISH_GROUP_ID\t\t: " + groupId +
+                        "\nPUBLISH_ARTIFACT_ID\t\t: " + artifactId +
+                        "\nPUBLISH_VERSION\t\t\t: " + version)
 
                 if (project.plugins.findPlugin("com.android.library")) {
 
@@ -42,21 +43,21 @@ afterEvaluate {
 
                     // Mostly self-explanatory metadata
                     pom {
-                        name.set(artifactId)
+                        name = artifactId
                         description.set("SDK for Tempo Branded Levels")
                         url.set('https://github.com/Tempo-Platform/tempo-android-branded-levels')
 
                         licenses {
                             license {
-                                name.set('MIT license')
+                                name = 'MIT license'
                                 url.set('https://opensource.org/licenses/MIT')
                             }
                         }
                         developers {
                             developer {
-                                id.set('omnibaker')
-                                name.set('omnibaker')
-                                email.set('omnibaker@gmail.com')
+                                id = 'development'
+                                name = 'development'
+                                email = 'development@tempoplatform.com'
                             }
                         }
 

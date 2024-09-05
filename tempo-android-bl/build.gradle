@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.tempoplatform.bl'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 21
-        targetSdk 33
+        targetSdk 34
     }
 
     buildTypes {
@@ -26,9 +26,8 @@ android {
 }
 
 dependencies {
-    //implementation 'androidx.core:core:1.7.0'
-    implementation 'com.google.android.gms:play-services-location:(20, 21]'
-    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+    api 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+    api 'com.google.android.gms:play-services-location:(20, 21]'
 }
 
 apply from: 'publish-remote.gradle'
