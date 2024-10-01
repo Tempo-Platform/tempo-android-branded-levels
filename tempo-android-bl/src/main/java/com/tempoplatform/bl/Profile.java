@@ -70,16 +70,13 @@ public class Profile implements AdIdListener
 
         // Configure static instance if currently null
         if (locData == null) {
-
             locData = new LocationData();
             locData.consent = BridgeRef.LocationConsent.NONE.toString();
-
             Log.d(BridgeRef.LOG, "Profile created: Static 'locData' was created from scratch");
         } else {
             Log.d(BridgeRef.LOG, "Profile created: Static 'locData' already existed, using current");
         }
 
-        // * - - - - *
         VersionCollector vc = new VersionCollector();
         vc.getVersion(context, this);
     }
@@ -150,7 +147,6 @@ public class Profile implements AdIdListener
                     "");
         }
     }
-
 
     /**
      * Takes input Consent type and attempts to update Location Data
@@ -442,7 +438,6 @@ public class Profile implements AdIdListener
         }
         unityCallbacks.onAdIdRequest(adId);
     }
-
 
     /**
      * Starts async process to check device Ad ID (if configured)
