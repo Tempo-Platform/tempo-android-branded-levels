@@ -9,4 +9,6 @@ public interface UnityCallbacks {
                           String admin_area, String sub_admin_area, String locality, String sub_locality);
     void onCountryCodeRequest(String countryCode);
     void onAdIdRequest(String adId);
+    void onVersionCodeRequest(int versionCode);
+    void onVersionNameRequest(String versionName);
 }

@@ -58,6 +58,7 @@ public class Profile implements AdIdListener
      */
     public Profile(Context context, UnityCallbacks unityCallbacks) {
         this.unityCallbacks = unityCallbacks;
+
         initSetup(context);
     }
 
@@ -77,6 +78,10 @@ public class Profile implements AdIdListener
         } else {
             Log.d(BridgeRef.LOG, "Profile created: Static 'locData' already existed, using current");
         }
+
+        // * - - - - *
+        VersionCollector vc = new VersionCollector();
+        vc.getVersion(context, this);
     }
 
     /**
@@ -145,6 +150,7 @@ public class Profile implements AdIdListener
                     "");
         }
     }
+
 
     /**
      * Takes input Consent type and attempts to update Location Data
